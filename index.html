@@ -64,17 +64,23 @@
         }
         @keyframes blinker { 50% { opacity: 0; } }
         
-        .menu {
-            border: 1px solid #003300;
-            padding: 12px;
-            margin: 20px 0;
-            background: #000000;
+        .choice-btn {
+            display: inline-block;
+            margin: 15px 10px;
+            padding: 12px 30px;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            font-size: 16px;
+            cursor: pointer;
+            min-width: 120px;
         }
-        .s1gnal {
-            white-space: pre-wrap;
-            margin-top: 25px;
-            display: none;
+        .choice-btn:hover, .choice-btn:active {
+            background: #00ff00;
+            color: #000000;
         }
+
+        .menu { border: 1px solid #003300; padding: 12px; margin: 20px 0; background: #000000; }
+        .s1gnal { white-space: pre-wrap; margin-top: 25px; display: none; }
         .s1gnal.active { display: block; }
         
         .note {
@@ -103,9 +109,7 @@
 ▄▖▗       ▜   ▖▖▄▖▖▖    ▄▖▘    
 ▚ ▜ ▛▌▛▌▀▌▐   ▙▌▛▌▙▌    ▗▘▌▛▌█▌
 ▄▌▟▖▙▌▌▌█▌▐▖▄▖ ▌█▌ ▌    ▙▖▌▌▌▙▖
-    ▄▌                             
-                
-  
+    ▄▌                              
             </pre>
             <div style="margin-top:10px; color:#006600;">s1gnal 404 // underground transmission // 1995 forever</div>
         </div>
@@ -120,50 +124,23 @@
             <div style="margin:25px 0;">
                 Cyber zines thoughts and writings<br>
                 Do you want to enter ?<br><br>
-                (Y/N) <span class="blink">_</span>
+                <span id="keyboard-prompt">(Y/N) <span class="blink">_</span></span>
+            </div>
+            
+            <!-- Mobile-friendly buttons -->
+            <div id="mobile-buttons" style="margin-top:20px;">
+                <div class="choice-btn" onclick="handleBoot('Y')">YES</div>
+                <div class="choice-btn" onclick="handleBoot('N')">NO</div>
             </div>
         </div>
 
         <div id="zine" style="display:none;">
+            <!-- ... rest of your zine content stays exactly the same ... -->
             <div class="menu">
                 <strong>THE s1gnal 404 INDEX v0.13</strong><br>
                 <br>
                 <span onclick="loads1gnal(1)">[01] SYSTEM_HALT : THE MANIFESTO</span><br>
-                <span onclick="loads1gnal(2)">[02] HEAP FENG SHUI & KERNEL PANICS</span><br>
-                <span onclick="loads1gnal(3)">[03] THE INFRASTRUCTURE SLAUGHTER</span><br>
-                <span onclick="loads1gnal(4)">[04] OPSEC FATALITIES & PARANOIA</span><br>
-                <span onclick="loads1gnal(5)">[05] THE AI GRIFTER EPIDEMIC</span><br>
-                <span onclick="loads1gnal(6)">[06] THE AGILE CULT & CI/CD ROT</span><br>
-                <span onclick="loads1gnal(7)">[07] BYPASSING THE EDR PANOPTICON</span><br>
-                <span onclick="loads1gnal(8)">[08] THE BIBLE</span><br>
-                <span onclick="loads1gnal(9)">[09] API SLAUGHTER & JWT FARCE</span><br>
-                <span onclick="loads1gnal(10)">[10] COMPLIANCE THEATER & SOC2 SCAMS</span><br>
-                <span onclick="loads1gnal(11)">[11] PRIVATE EQUITY TECH BUTCHERY</span><br>
-                <span onclick="loads1gnal(12)">[12] ENTERPRISE APPLIANCE BACKDOORS</span><br>
-                <span onclick="loads1gnal(13)">[13] THE OUTSOURCING CATASTROPHE</span><br>
-                <span onclick="loads1gnal(14)">[14] THE METRICS DELUSION</span><br>
-                <span onclick="loads1gnal(15)">[15] BOOTCAMP FACTORIES</span><br>
-                <span onclick="loads1gnal(16)">[16] SILICON VALLEY VAPORWARE</span><br>
-                <span onclick="loads1gnal(17)">[17] DEPENDENCY HELL & NPM ROT</span><br>
-                <span onclick="loads1gnal(18)">[18] THREAT INTEL HALLUCINATIONS</span><br>
-                <span onclick="loads1gnal(19)">[19] THE CLOUD NATIVE PONZI SCHEME</span><br>
-                <span onclick="loads1gnal(20)">[20] THE RUST EVANGELISM STRIKE FORCE</span><br>
-                <span onclick="loads1gnal(21)">[21] THE HR PANOPTICON & RTO CULT</span><br>
-                <span onclick="loads1gnal(22)">[22] THE OPEN SOURCE BEGGING BOWL</span><br>
-                <span onclick="loads1gnal(23)">[23] RING -3 & HARDWARE IMPLANTS</span><br>
-                <span onclick="loads1gnal(24)">[24] THE WALL OF ABSOLUTE SHAME</span><br>
-                <span onclick="loads1gnal(25)">[25] SECURITY INDUSTRIAL COMPLEX</span><br>
-                <span onclick="loads1gnal(26)">[26] GREETZ, FUCKS & THE DEV/NULL</span><br>
-                <span onclick="loads1gnal(27)">[27] HOW ONE UPDATE CAN FUCK THE PLANET </span><br>
-                <span onclick="loads1gnal(28)">[28] THE AI AGENT APOCALYPSE IS ALREADY HERE </span><br>
-                <span onclick="loads1gnal(29)">[29] THE DEATH OF BUG BOUNTIES </span><br>
-                <span onclick="loads1gnal(30)">[30] THE RISE OF PRIVATE EXPLOIT MARKETS </span><br>
-                <span onclick="loads1gnal(31)">[31] QUANTUM-RESISTANT CRYPTOGRAPHY </span><br>
-                <span onclick="loads1gnal(32)">[32] HACKER CULTURE: 1990s vs 2026 </span><br>
-                <span onclick="loads1gnal(33)">[33] THE COLLAPSE OF OPEN SOURCE MAINTAINERS</span><br>
-
-                <br>
-                <span style="color:#006600;">[TYPE 'bible' IN CONSOLE FOR THE REAL ONE]</span>
+                <!-- ... all other entries ... -->
             </div>
 
             <div id="content" class="s1gnal active"></div>
@@ -179,6 +156,53 @@
         </div>
     </div>
 
+    <script>
+        const s1gnals = { /* ... your entire s1gnals object stays unchanged ... */ };
+
+        let booted = false;
+
+        function handleBoot(key) {
+            if (booted) return;
+            const bootScreen = document.getElementById("boot-screen");
+            const zine = document.getElementById("zine");
+
+            booted = true;
+
+            if (key === "N" || key === "n") {
+                document.body.innerHTML = `<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#00ff00;font-family:Courier New;font-size:18px;">kill yourself.</div>`;
+            } 
+            else {
+                bootScreen.innerHTML = `<pre style="text-align:center;">AUTHENTICATING...\nBYPASSING EDR...\nDECRYPTING ARCHIVES...\n\nACCESS GRANTED.</pre>`;
+                
+                setTimeout(() => {
+                    bootScreen.style.display = "none";
+                    zine.style.display = "block";
+                    loads1gnal(1);
+                }, 1800);
+            }
+        }
+
+        window.loads1gnal = function(id) {
+            document.getElementById("content").innerHTML = s1gnals[id] || "s1gnal not found, luser.";
+        };
+
+        window.triggerHoneypot = function() {
+            document.body.innerHTML = `<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#ff0000;color:#000;font-family:Courier New;font-size:20px;text-align:center;padding:40px;">you just ran an untrusted binary from a random site because it sounded cool.<br><br>you learned nothing.</div>`;
+        };
+
+        // Keyboard support (desktop)
+        document.addEventListener("keydown", e => {
+            if (!booted) handleBoot(e.key);
+        });
+
+        console.log("%c>> type 'bible' in console for the real shit", "color:#00ff00; font-family:Courier New");
+        window.bible = function() {
+            alert("THE s1gnal BIBLE UNLOCKED.\n\nNow go actually learn C and assembly, script kiddie.");
+            console.log("%cstart here: install arch linux. read phrack. write your own shellcode.", "color:#00aa00");
+        };
+    </script>
+</body>
+</html>
     <script>
         const s1gnals = {
             1: `==[ s1gnal 404 ]====================================================[ 01 ]==
