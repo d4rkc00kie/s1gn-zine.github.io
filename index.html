@@ -82,12 +82,18 @@
             background: #003300;
             color: #00ff00;
         }
+        .menu span.active {
+            color: #00ff00;
+            background: #003300;
+        }
 
         .s1gnal {
             white-space: pre-wrap;
             margin-top: 25px;
             display: none;
             overflow-x: auto;
+            border-top: 1px dotted #003300;
+            padding-top: 20px;
         }
         .s1gnal.active { display: block; }
 
@@ -107,32 +113,14 @@
         }
         .honeypot:hover { color: #ff0000; }
 
-        /* ==================== MOBILE IMPROVEMENTS ==================== */
         @media (max-width: 768px) {
-            body {
-                font-size: 14px;
-            }
-            #app {
-                margin: 10px auto;
-                padding: 12px;
-                max-width: 100%;
-            }
-            .logo {
-                font-size: 16px;
-            }
-            .menu {
-                padding: 12px;
-            }
-            pre {
-                font-size: 13px;
-                overflow-x: auto;
-            }
-            .s1gnal {
-                font-size: 13.5px;
-            }
+            body { font-size: 14px; }
+            #app { margin: 10px auto; padding: 12px; max-width: 100%; }
+            .logo { font-size: 16px; }
+            .menu { padding: 12px; }
+            .s1gnal { font-size: 13.5px; }
         }
 
-        /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
